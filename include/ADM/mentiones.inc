@@ -11,7 +11,7 @@
  * Plugins: SScanf                                                                                                                   *
  * Modules: RGB                                                                                                                      *
  *                                                                                                                                   *
- * File Version: 1.0.0                                                                                                               *
+ * File Version: 1.1.0                                                                                                               *
  *                                                                                                                                   *
  * Functions:                                                                                                                        *
  * GetMentiones(playerid,text[],mention_color=0xCC0000FF,back_color=0xFFFFFFFF,max_len=sizeof(text));                                *
@@ -37,7 +37,9 @@
 forward OnPlayerMentioned(playerid,targetid);
 
 stock GetMentiones(playerid,text[],mention_color=0xCC0000FF,back_color=0xFFFFFFFF,max_len=sizeof(text)){
-	strreplace(text,"@@","@",.maxlength=max_len);
+	while(strfind(text,"@@") != -1){
+		strreplace(text,"@@","@",.maxlength=max_len);
+	}
 	new len = strlen(text), pos = 0, mentiones_start, mentiones_stop;
 	while(mentiones_stop != -1 && pos < len && pos != -1 && (mentiones_start = strfind(text,"@",false,pos)) != -1){
 		new p_name[MAX_PLAYER_NAME];
