@@ -2,27 +2,27 @@
 
 
 ### Full script list and upcoming updates:
-* [ADM Project Website](http://8.ct8.pl)
+* [ADM Project Website](http://adm.ct8.pl)
 
 
 ### Found a bug, please report it here:
-* [ADM Project Website](http://8.ct8.pl/r/sendreport)
+* [ADM Project Website](http://adm.ct8.pl/r/sendreport)
 
 
 ### Repository developers:
-* [Abyss Morgan](http://8.ct8.pl/r/abyssmorgan) (Main Programmer)
-* [Katarina Calzaghe](http://8.ct8.pl/r/katarinacalzaghe) (Project Head)
+* [Abyss Morgan](http://adm.ct8.pl/r/abyssmorgan) (Main Programmer)
+* [Katarina Calzaghe](http://adm.ct8.pl/r/katarinacalzaghe) (Project Head)
 
 
 ### ADM Team:
-* [Banan](http://8.ct8.pl/r/banan) (Beta Tester 2014 - 2017)
-* [FerilanS](http://8.ct8.pl/r/ferilans) (Beta Tester 2014 - 2017)
-* [MuchomoE](http://8.ct8.pl/r/muchomoe) (In-game Bug Manager)
-* [Unrea1](http://8.ct8.pl/r/Unrea1) (Beta Tester 2017 - 2018)
-* [TDI97](http://8.ct8.pl/r/TDI97) (Mapper)
-* [Switel12](http://8.ct8.pl/r/Switel12) (Distribution Manager)
-* [Marichuanka](http://8.ct8.pl/r/Marichuanka) (TeamSpeak 3 Manager)
-* [W1z4rD](http://8.ct8.pl/r/W1z4rD) (Beta Tester 2017 - 2018)
+* [Banan](http://adm.ct8.pl/r/banan) (Beta Tester 2014 - 2017)
+* [FerilanS](http://adm.ct8.pl/r/ferilans) (Beta Tester 2014 - 2017)
+* [MuchomoE](http://adm.ct8.pl/r/muchomoe) (In-game Bug Manager)
+* [Unrea1](http://adm.ct8.pl/r/Unrea1) (Beta Tester 2017 - 2018)
+* [TDI97](http://adm.ct8.pl/r/TDI97) (Mapper)
+* [Switel12](http://adm.ct8.pl/r/Switel12) (Distribution Manager)
+* [Marichuanka](http://adm.ct8.pl/r/Marichuanka) (TeamSpeak 3 Manager)
+* [W1z4rD](http://adm.ct8.pl/r/W1z4rD) (Beta Tester 2017 - 2018)
 
 
 ### Contributors:
