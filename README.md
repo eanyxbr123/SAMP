@@ -11,7 +11,6 @@
 
 ### Repository developers:
 * [Abyss Morgan](http://adm.ct8.pl/r/abyssmorgan) (Main Programmer)
-* [Katarina Calzaghe](http://adm.ct8.pl/r/katarinacalzaghe) (Project Head)
 
 
 ### ADM Team:
