@@ -1,0 +1,41 @@
+Hi I would like to present [b]S[/b]an [b]A[/b]ndreas [b]O[/b]bject [b]I[/b]mage Loader.
+What is that ? This is the script allows you to load binary objects file which have a dynamic structure.
+
+[b]Technical Data:[/b]
+- Unique compressed file structure (Dynamic moving datagram)
+- Encrypted information: Author, Version, Description
+- Ability to load, unload the selected files
+- Compression performance. Ratio ~33%
+- Filtering ip/port server, if anyone needs
+- Support for SA:MP 0.3.8
+
+[b]Videos:[/b]
+[url=https://www.youtube.com/watch?v=M_WiwgS-Kqk]SAOI File Generator[/url]
+[url=https://www.youtube.com/watch?v=tcJitQRub-E]SAOI File Manager v1.9[/url]
+
+[b]SAOI File Manager Screenshots:[/b]
+http://imgur.com/a/H1HaQ
+http://imgur.com/a/CncTv
+http://imgur.com/a/o2RiF
+
+[b]Benchmark:[/b]
+[php]
+Total loaded files 173/173 in 228 ms
+Total loaded items 31204
+[/php]
+
+[b]Download:[/b]
+[url=http://8.ct8.pl/dl.php?id=61]SAOI Full[/url]
+[url=http://8.ct8.pl/d/3DTryg.inc]3DTryg.inc[/url] [url=8.ct8.pl/2][color=#003D00][b]Thread[/b][/color][/url]
+[url=http://8.ct8.pl/d/SWAP.inc]SWAP.inc[/url]
+[url=http://8.ct8.pl/d/StreamerFunction.inc]StreamerFunction.inc[/url] [url=8.ct8.pl/3][color=#003D00][b]Thread[/b][/color][/url]
+[url=http://forum.sa-mp.com/showthread.php?t=576114]IZCMD[/url] / [url=http://forum.sa-mp.com/showthread.php?t=91354]ZCMD[/url]
+
+[b]SAOI File Manager Plugins:[/b]
+[url=http://forum.sa-mp.com/showthread.php?t=590918]Streamer (REQUIRED)[/url]
+[url=http://forum.sa-mp.com/showthread.php?t=570927]SScanf (REQUIRED)[/url]
+[url=http://forum.sa-mp.com/showthread.php?t=586068]ColAndreas[/url] OR [url=http://forum.sa-mp.com/showthread.php?t=275492]MapAndreas[/url] (REQUIRED)
+[url=http://forum.sa-mp.com/showthread.php?t=513499]YSF (NOT REQUIRED)[/url]
+
+[i][b]Non-Registered Users:[/b]
+[url=http://8.ct8.pl/report/?title=SAOI%20Bug]Bug Report[/url][/i]

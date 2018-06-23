@@ -1,0 +1,63 @@
+Hello, I would like to present you the Knife Shot Script
+
+[b]Video:[/b]
+[url]https://www.youtube.com/watch?v=WJZCn3XXRHY[/url]
+
+[b]Download:[/b]
+[url=http://8.ct8.pl/d/Knife.inc]Knife.inc[/url]
+[url=http://8.ct8.pl/d/3DTryg.inc]3DTryg.inc[/url] [url=8.ct8.pl/2][color=#003D00][b]Thread[/b][/color][/url]
+ColAndreas Plugin [url=http://forum.sa-mp.com/showthread.php?t=586068][color=#003D00][b]Thread[/b][/color][/url]
+
+[b]Installation:[/b]
+[php]
+#include <ADM/3DTryg>
+#include <Knife>
+[/php]
+
+[b]Functions:[/b]
+[php]
+ToggleUseTeamKnifeShoot(bool:toggle);            //default: false
+bool:IsToggleUseTeamKnifeShoot();
+ToggleKnifeShootForAll(bool:toggle);             //default: true
+bool:IsToggleKnifeShootForAll();                  
+ToggleKnifeShootForPlayer(playerid,bool:toggle); //default: false
+bool:IsToggleKnifeShootForPlayer(playerid);
+Float:GetKnifeShootDamage(playerid);
+SetKnifeShootDamage(playerid,Float:amount);
+Float:GetKnifeShootSpeed(playerid);
+SetKnifeShootSpeed(playerid,Float:speed);
+Float:GetKnifeShootRange(playerid);
+SetKnifeShootRange(playerid,Float:range);
+GetKnifeShootAmmo(playerid);
+SetKnifeShootAmmo(playerid,ammo);
+[/php]
+
+[b]Callbacks:[/b]
+[php]
+OnPlayerRequestKnifeShot(playerid,targetid); //return 0 - prevent to use knife shoot (this callback is called also if ammo is 0)
+[/php]
+
+[b]Definitions:[/b]
+[php]
+KNIFE_SPEED
+KNIFE_MAX_RADIUS
+KNIFE_REFRESH_ACTION
+KNIFE_REFRESH_MISS
+KNIFE_DAMAGE
+KNIFE_WEAPON_AMMO_INFINITY
+[/php]
+
+[b]Activation:[/b]
+[php]
+Weapon: Knife
+
+Step 1: Right Mouse Button
+Step 2: Left Mouse Button
+[/php]
+
+[i][b]Notice:[/b]
+Filterscript not exist because filterscripts have [b]limits.[/b]
+This has been replaced by include, having [b]automatic installation[/b], efficient GameMode/FilterScript.[/i]
+
+[i][b]Non-Registered Users:[/b]
+[url=http://8.ct8.pl/report/?title=Knife%20Bug]Bug Report[/url][/i]

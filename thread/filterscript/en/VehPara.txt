@@ -1,0 +1,58 @@
+Hello, I would like to present you the Vehicle Parachute Script
+
+[b]Video:[/b]
+[url]https://www.youtube.com/watch?v=TrxYkMeBtsU[/url]
+
+[b]Download:[/b]
+[url=http://8.ct8.pl/d/VehPara.inc]VehPara.inc[/url]
+[url=http://8.ct8.pl/d/3DTryg.inc]3DTryg.inc[/url] [url=8.ct8.pl/2][color=#003D00][b]Thread[/b][/color][/url]
+ColAndreas Plugin [url=http://forum.sa-mp.com/showthread.php?t=586068][color=#003D00][b]Thread[/b][/color][/url]
+
+[b]Installation:[/b]
+[php]
+#include <ColAndreas>
+#include <ADM/3DTryg>
+#include <VehPara>
+[/php]
+
+[b]Functions:[/b]
+[php]
+bool:IsPlayerUsingVehPara(playerid);
+bool:IsToggleVehicleParachute(vehicleid);
+ToggleVehicleParachute(vehicleid,bool:toggle);
+SetVehicleParachuteKey(key);
+[/php]
+
+[b]Activation:[/b]
+[php]
+H - Open/thrown parachute
+[/php]
+
+[b]Language Config:[/b]
+[php]
+#define VP_LANG_01	"~g~Parachute has been thrown"
+#define VP_LANG_02	"~g~Parachute has been opened"
+#define VP_LANG_03	"~g~Cannot use parachute"
+
+#include <VehPara>
+[/php]
+
+[b]Example Code:[/b]
+[php]
+CMD:vehpara(playerid){
+
+	new vid = GetPlayerVehicleID(playerid);
+	if(IsToggleVehicleParachute(vid)) return SendClientMessage(playerid,0xCC0000FF,"Your vehicle already has a parachute");
+	if(!IsVehicleFlag(GetVehicleFlags(vid),VF_STREET)) return SendClientMessage(playerid,0xCC0000FF,"For this vehicle can not be mounted parachute");
+	
+	ToggleVehicleParachute(vid,true);
+	return 1;
+}
+[/php]
+
+[i][b]Notice:[/b]
+Filterscript not exist because filterscripts have [b]limits.[/b]
+This has been replaced by include, having [b]automatic installation[/b], efficient GameMode/FilterScript.[/i]
+
+[i][b]Non-Registered Users:[/b]
+[url=http://8.ct8.pl/report/?title=VehPara%20Bug]Bug Report[/url][/i]

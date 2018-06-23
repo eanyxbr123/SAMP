@@ -1,0 +1,10 @@
+Simple data base for 27608 random points in roads.
+
+[b]Function:[/b]
+[php]
+GetRandomRoutePoint(const file_name[],&Float:x,&Float:y,&Float:z,max_points=MAX_ROUTE_RANDOM);
+[/php]
+
+[b]Download:[/b]
+[url=http://8.ct8.pl/d/route_rand.inc]route_rand.inc[/url]
+[url=http://8.ct8.pl/d/route_rand.bin]route_rand.bin[/url] (Required, put in /scriptfiles)
