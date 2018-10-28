@@ -1920,8 +1920,28 @@ EVF::Function:: EVF::IsTrailer(vehicleid){
 					}
 				}
 				case EVF_CAR_BLINK_EMERGENCY: {
-					EVF::SetCarBlinking(vehicleid,EVF_CAR_BLINK_LEFT,true);
-					EVF::SetCarBlinking(vehicleid,EVF_CAR_BLINK_RIGHT,true);
+					if(obj[0] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+						AttachDynamicObjectToVehicle(obj[0],vehicleid,EVF::BlinkOffsetData[id][EVF::X],EVF::BlinkOffsetData[id][EVF::Y],EVF::BlinkOffsetData[id][EVF::Z],0.0,0.0,0.0);
+					}
+					if(trailerid != 0){
+						id = GetVehicleModel(trailerid)-400;
+						AttachDynamicObjectToVehicle(obj[1],trailerid,EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
+					} else {
+						if(obj[1] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+							AttachDynamicObjectToVehicle(obj[1],vehicleid,EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
+						}
+					}
+					if(obj[2] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+						AttachDynamicObjectToVehicle(obj[2],vehicleid,-EVF::BlinkOffsetData[id][EVF::X],EVF::BlinkOffsetData[id][EVF::Y],EVF::BlinkOffsetData[id][EVF::Z],0.0,0.0,0.0);
+					}
+					if(trailerid != 0){
+						id = GetVehicleModel(trailerid)-400;
+						AttachDynamicObjectToVehicle(obj[3],trailerid,-EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
+					} else {
+						if(obj[3] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+							AttachDynamicObjectToVehicle(obj[3],vehicleid,-EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
+						}
+					}
 				}
 			}
 		}
