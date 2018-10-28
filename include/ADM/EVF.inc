@@ -11,7 +11,7 @@
  * Plugins: Streamer                                                                                                              *
  * Modules: None                                                                                                                  *
  *                                                                                                                                *
- * File Version: 3.2.3                                                                                                            *
+ * File Version: 3.3.0                                                                                                            *
  * Streamer Version: 2.9.1                                                                                                        *
  *                                                                                                                                *
  * Functions:                                                                                                                     *
@@ -83,9 +83,9 @@
  * EVF::UpdateVehicleDamage(vehicleid,type);                                                                                      *
  * EVF::UpdateVehicleDamageStatus(vehicleid,type,update);                                                                         *
  * EVF::GetVehicleDamageStatus(vehicleid,type);                                                                                   *
- * SetVehicleNeonLights(vehicleid,bool:enable = true,color = RED_NEON);                                                           *
+ * SetVehicleNeonLights(vehicleid,bool:enable = true,color = RED_NEON,slotid = 0);                                                *
  * VehicleSupportsNeonLights(modelid);                                                                                            *
- * GetVehicleNeonLightsState(vehicleid);                                                                                          *
+ * GetVehicleNeonLightsState(vehicleid,slotid = 0);                                                                               *
  * IsToggledVehicleBulletproof(vehicleid);                                                                                        *
  * ToggleVehicleBulletproof(vehicleid,bool:toggle);                                                                               *
  * GetComponentName(componentid,name[],len = sizeof(name));                                                                       *
@@ -253,11 +253,11 @@
 /*
 //Check Version EVF.inc
 #if !defined _EVF_include
-	#error [ADM] You need EVF.inc v3.2.3
+	#error [ADM] You need EVF.inc v3.3.0
 #elseif !defined EVF_Version
-	#error [ADM] Update you EVF.inc to v3.2.3
-#elseif (EVF_Version < 30203)
-	#error [ADM] Update you EVF.inc to v3.2.3
+	#error [ADM] Update you EVF.inc to v3.3.0
+#elseif (EVF_Version < 30300)
+	#error [ADM] Update you EVF.inc to v3.3.0
 #endif
 */
 
@@ -297,7 +297,7 @@
 	#error [ADM] Please include a_http.inc before EVF.inc
 #endif
 
-#define EVF_Version									(30203) //a.b.c 10000*a+100*b+c
+#define EVF_Version									(30300) //a.b.c 10000*a+100*b+c
 #define EVF_SAMP_Version							"0.3.7"
 
 #define EVF_Function::								stock
@@ -344,7 +344,9 @@
 #define RESET_PAINTJOB_ID							3
 #define MAX_VEHICLE_PARAMS							7
 #define MAX_VEHICLE_MODELS							212
-#define DEFAULT_VEHICLE_FUEL						1000
+#if !defined DEFAULT_VEHICLE_FUEL
+	#define DEFAULT_VEHICLE_FUEL					1000
+#endif
 #define MAX_VEHICLE_FUEL							DEFAULT_VEHICLE_FUEL
 
 #define BONNET_HEALTHY_CLOSED						0
@@ -395,6 +397,7 @@
 #define EVF_CAR_BLINK_RIGHT							1
 #define EVF_CAR_BLINK_EMERGENCY						2
 
+#define MAX_VEHICLE_NEON_SLOT						3
 #define RED_NEON									18647
 #define BLUE_NEON									18648
 #define GREEN_NEON									18649
@@ -933,7 +936,7 @@ new EVF::VehicleTrailerID[MAX_VEHICLES],
 	EVF::ModShopStatus[MAX_PLAYERS];
 	
 #if defined EVF_Streamer
-	new STREAMER_TAG_OBJECT EVF::VehicleNeon[MAX_VEHICLES][2],
+	new STREAMER_TAG_OBJECT EVF::VehicleNeon[MAX_VEHICLES][MAX_VEHICLE_NEON_SLOT][2],
 		STREAMER_TAG_OBJECT EVF::Blink[MAX_VEHICLES][4],
 		EVF::BlinkSide[MAX_VEHICLES],
 		Float:EVF::BlinkR[MAX_VEHICLES],
@@ -1978,22 +1981,23 @@ EVF::Function:: GetVehicleComponentPrice(componentid){
 }
 	
 #if defined EVF_Streamer
-	EVF::Function:: SetVehicleNeonLights(vehicleid,bool:enable = true,color = RED_NEON){
+	EVF::Function:: SetVehicleNeonLights(vehicleid,bool:enable = true,color = RED_NEON,slotid = 0){
+		if(slotid < 0 || slotid >= MAX_VEHICLE_NEON_SLOT) return 0;
 		if(!IsValidVehicle(vehicleid)) return 0;
 		new modelid = GetVehicleModel(vehicleid);
 		if(!IsValidVehicleModelID(modelid)) return 0;
 		modelid -= 400;
 		
-		if(IsValidDynamicObject(EVF::VehicleNeon[vehicleid][0])) DestroyDynamicObject(EVF::VehicleNeon[vehicleid][0]);
-		if(IsValidDynamicObject(EVF::VehicleNeon[vehicleid][1])) DestroyDynamicObject(EVF::VehicleNeon[vehicleid][1]);
-		EVF::VehicleNeon[vehicleid][0] = EVF::VehicleNeon[vehicleid][1] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+		if(IsValidDynamicObject(EVF::VehicleNeon[vehicleid][slotid][0])) DestroyDynamicObject(EVF::VehicleNeon[vehicleid][slotid][0]);
+		if(IsValidDynamicObject(EVF::VehicleNeon[vehicleid][slotid][1])) DestroyDynamicObject(EVF::VehicleNeon[vehicleid][slotid][1]);
+		EVF::VehicleNeon[vehicleid][slotid][0] = EVF::VehicleNeon[vehicleid][slotid][1] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
 		
 		if(!enable) return 1;
 		if(18647 <= color <= 18652){
-			EVF::VehicleNeon[vehicleid][0] = CreateDynamicObject(color,0.0,0.0,0.0,0.0,0.0,0.0);
-			EVF::VehicleNeon[vehicleid][1] = CreateDynamicObject(color,0.0,0.0,0.0,0.0,0.0,0.0);
-			AttachDynamicObjectToVehicle(EVF::VehicleNeon[vehicleid][0],vehicleid,EVF::NeonOffsetData[modelid][EVF::NeonX], EVF::NeonOffsetData[modelid][EVF::NeonY],EVF::NeonOffsetData[modelid][EVF::NeonZ],0.0,0.0,0.0);
-			AttachDynamicObjectToVehicle(EVF::VehicleNeon[vehicleid][1],vehicleid,-EVF::NeonOffsetData[modelid][EVF::NeonX], EVF::NeonOffsetData[modelid][EVF::NeonY],EVF::NeonOffsetData[modelid][EVF::NeonZ],0.0,0.0,0.0);
+			EVF::VehicleNeon[vehicleid][slotid][0] = CreateDynamicObject(color,0.0,0.0,0.0,0.0,0.0,0.0);
+			EVF::VehicleNeon[vehicleid][slotid][1] = CreateDynamicObject(color,0.0,0.0,0.0,0.0,0.0,0.0);
+			AttachDynamicObjectToVehicle(EVF::VehicleNeon[vehicleid][slotid][0],vehicleid,EVF::NeonOffsetData[modelid][EVF::NeonX], EVF::NeonOffsetData[modelid][EVF::NeonY],EVF::NeonOffsetData[modelid][EVF::NeonZ],0.0,0.0,0.0);
+			AttachDynamicObjectToVehicle(EVF::VehicleNeon[vehicleid][slotid][1],vehicleid,-EVF::NeonOffsetData[modelid][EVF::NeonX], EVF::NeonOffsetData[modelid][EVF::NeonY],EVF::NeonOffsetData[modelid][EVF::NeonZ],0.0,0.0,0.0);
 			return 1;
 		}
 		return 0;
@@ -2005,9 +2009,10 @@ EVF::Function:: GetVehicleComponentPrice(componentid){
 		return !(EVF::NeonOffsetData[modelid][EVF::NeonX] == 0.0 && EVF::NeonOffsetData[modelid][EVF::NeonY] == 0.0 && EVF::NeonOffsetData[modelid][EVF::NeonZ] == 0.0);
 	}
 
-	EVF::Function:: GetVehicleNeonLightsState(vehicleid){
+	EVF::Function:: GetVehicleNeonLightsState(vehicleid,slotid = 0){
+		if(slotid < 0 || slotid >= MAX_VEHICLE_NEON_SLOT) return 0;
 		if(!IsValidVehicle(vehicleid)) return 0;
-		return (IsValidDynamicObject(EVF::VehicleNeon[vehicleid][0]) && IsValidDynamicObject(EVF::VehicleNeon[vehicleid][1]));
+		return (IsValidDynamicObject(EVF::VehicleNeon[vehicleid][slotid][0]) && IsValidDynamicObject(EVF::VehicleNeon[vehicleid][slotid][1]));
 	}
 #endif
 
@@ -2952,7 +2957,9 @@ EVF::Function:: EVF::DestroyVehicle(vehicleid){
 				EVF::VehicleTempData[vehicleid][e_attached_object][i] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
 			}
 		}
-		SetVehicleNeonLights(vehicleid,false);
+		for(new slotid = 0; slotid < MAX_VEHICLE_NEON_SLOT; slotid++){
+			SetVehicleNeonLights(vehicleid,false,RED_NEON,slotid);
+		}
 	#endif
 	EVF::VehicleTempData[vehicleid][e_uptime] = 0;
 	CallRemoteFunction("OnVehicleDestroyed","i",vehicleid);
