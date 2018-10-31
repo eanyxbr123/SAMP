@@ -58,10 +58,8 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #define FoxForeach(%0,%1)				for(new %0 = Fox%1[0], i_%0 = 0; i_%0 <= Fox%1Upp; i_%0++, %0 = Fox%1[i_%0])

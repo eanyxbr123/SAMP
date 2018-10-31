@@ -75,7 +75,7 @@
  * ADM_ERROR_CODE_DMP_IDX      //Invalid dump file index                                                                          *
  *                                                                                                                                *
  * Key Generator:                                                                                                                 *
- * http://adm.ct8.pl/admkg                                                                                                          *
+ * adm.ct8.pl/admkg                                                                                                               *
  *                                                                                                                                *
  **********************************************************************************************************************************/
  
