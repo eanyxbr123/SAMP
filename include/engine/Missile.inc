@@ -12,7 +12,7 @@
  *                                                                                                                                *
  * File Version: 2.2.1                                                                                                            *
  * Streamer Version: 2.9.4                                                                                                        *
- * 3DTryg Version: 4.6.1                                                                                                          *
+ * 3DTryg Version: 4.6.2                                                                                                          *
  *                                                                                                                                *
  * Functions:                                                                                                                     *
  * MissileLaunch(type,Float:detection_range,Float:explode_radius,Float:speed,Float:x,Float:y,Float:z,worldid,interiorid,playerid, *
@@ -67,11 +67,11 @@
 
 //Check Version 3DTryg.inc
 #if !defined _3D_Tryg
-	#error [ADM] You need 3DTryg.inc v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] You need 3DTryg.inc v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #elseif !defined Tryg3D_Version
-	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] Update you 3DTryg.inc to v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #elseif (Tryg3D_Version < 40601)
-	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] Update you 3DTryg.inc to v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #endif
 
 #define Missile_Version						(20201)

@@ -12,7 +12,7 @@
  *                                                                                                                                *
  * File Version: 2.1.1                                                                                                            *
  * Streamer Version: 2.9.4                                                                                                        *
- * 3DTryg Version: 4.6.1                                                                                                          *
+ * 3DTryg Version: 4.6.2                                                                                                          *
  *                                                                                                                                *
  * Functions:                                                                                                                     *
  * CreateDynamicMine(type,Float:detection_range,Float:explode_radius,Float:health,respawntime,Float:x,Float:y,Float:z,            *
@@ -73,11 +73,11 @@
 
 //Check Version 3DTryg.inc
 #if !defined _3D_Tryg
-	#error [ADM] You need 3DTryg.inc v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] You need 3DTryg.inc v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #elseif !defined Tryg3D_Version
-	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] Update you 3DTryg.inc to v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #elseif (Tryg3D_Version < 40601)
-	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] Update you 3DTryg.inc to v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #endif
 
 #if defined _dynamic_mine_system

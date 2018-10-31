@@ -13,7 +13,7 @@
  * File Version: 5.1.24                                                                                                            *
  * Streamer Version: 2.9.4                                                                                                         *
  * MapAndreas Version: 1.2.1                                                                                                       *
- * 3DTryg Version: 4.6.1                                                                                                           *
+ * 3DTryg Version: 4.6.2                                                                                                           *
  *                                                                                                                                 *
  * Include created for the project Next Generation City Mod http://ngc.ct8.pl                                                      *
  *                                                                                                                                 *
@@ -69,11 +69,11 @@
 
 //Check Version 3DTryg.inc
 #if !defined _3D_Tryg
-	#error [ADM] You need 3DTryg.inc v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] You need 3DTryg.inc v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #elseif !defined Tryg3D_Version
-	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] Update you 3DTryg.inc to v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #elseif (Tryg3D_Version < 40601)
-	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
+	#error [ADM] Update you 3DTryg.inc to v4.6.2 (adm.ct8.pl/d/3DTryg.inc)
 #endif
 
 #if defined _NOX_ENGINE_X
