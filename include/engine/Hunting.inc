@@ -11,8 +11,8 @@
  * Plugins: Streamer, ColAndreas                                                                                                  *
  * Modules: 3DTryg                                                                                                                *
  *                                                                                                                                *
- * File Version: 1.4.1                                                                                                            *
- * Streamer Version: 2.9.3                                                                                                        *
+ * File Version: 1.4.2                                                                                                            *
+ * Streamer Version: 2.9.4                                                                                                        *
  * ColAndreas Version: 1.4.0                                                                                                      *
  * 3DTryg Version: 4.6.1                                                                                                          *
  *                                                                                                                                *
@@ -79,7 +79,7 @@
  **********************************************************************************************************************************/
  
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 #if !defined COLANDREAS
@@ -130,10 +130,10 @@
 #define HUNTING_NO_AUTO_RESPAWN					(-1)
 
 enum Hunting::enum {
-	STREAMER_TAG_OBJECT Hunting::objectid,
-	STREAMER_TAG_AREA Hunting::drop_area,
-	STREAMER_TAG_AREA Hunting::scared_area,
-	STREAMER_TAG_AREA Hunting::areaid,
+	STREAMER_TAG_OBJECT:Hunting::objectid,
+	STREAMER_TAG_AREA:Hunting::drop_area,
+	STREAMER_TAG_AREA:Hunting::scared_area,
+	STREAMER_TAG_AREA:Hunting::areaid,
 	Hunting::type,
 	Float:Hunting::health,
 	Float:Hunting::spawn_health,
@@ -350,7 +350,7 @@ stock Hunting::GoTo(mobid,Float:x,Float:y,bool:disable_moving=false){
 	new Float:z;
 	Tryg3D::MapAndreasFindZ(x,y,z);
 	if(IsPointInWater(x,y) || IsPointInUnderground(x,y,z)) return 0;
-	if(Hunting::Data[mobid][Hunting::areaid] != STREAMER_TAG_AREA INVALID_STREAMER_ID){
+	if(Hunting::Data[mobid][Hunting::areaid] != STREAMER_TAG_AREA:INVALID_STREAMER_ID){
 		if(!IsPointInDynamicArea(Hunting::Data[mobid][Hunting::areaid],x,y,z)) return 0;
 	}
 	
@@ -377,7 +377,7 @@ stock Hunting::SetPos(mobid,Float:x,Float:y,Float:z,bool:disable_moving=false){
 	if(!Hunting::IsValid(mobid)) return 0;
 	
 	if(IsPointInWater(x,y) || IsPointInUnderground(x,y,z)) return 0;
-	if(Hunting::Data[mobid][Hunting::areaid] != STREAMER_TAG_AREA INVALID_STREAMER_ID){
+	if(Hunting::Data[mobid][Hunting::areaid] != STREAMER_TAG_AREA:INVALID_STREAMER_ID){
 		if(!IsPointInDynamicArea(Hunting::Data[mobid][Hunting::areaid],x,y,z)) return 0;
 	}
 	
@@ -399,14 +399,14 @@ stock Hunting::SetPos(mobid,Float:x,Float:y,Float:z,bool:disable_moving=false){
 	return 1;
 }
 
-stock Hunting::Create(type,Float:x,Float:y,Float:z,Float:health,respawntime,worldid=-1,interiorid=-1,playerid=-1,Float:streamdistance=200.0,STREAMER_TAG_AREA moving_area = STREAMER_TAG_AREA INVALID_STREAMER_ID){
+stock Hunting::Create(type,Float:x,Float:y,Float:z,Float:health,respawntime,worldid=-1,interiorid=-1,playerid=-1,Float:streamdistance=200.0,STREAMER_TAG_AREA:moving_area = STREAMER_TAG_AREA:INVALID_STREAMER_ID){
 	new mobid = Hunting::GetFreeID();
 	if(mobid == INVALID_HUNTING_ID){
 		printf("[ADM] Error: Failed to Hunting::Create limit %d exceeded, add #define MAX_HUNTING_ANIMALS before Hunting.inc",MAX_HUNTING_ANIMALS);
 		return mobid;
 	}
 	
-	if(moving_area != STREAMER_TAG_AREA INVALID_STREAMER_ID){
+	if(moving_area != STREAMER_TAG_AREA:INVALID_STREAMER_ID){
 		if(!IsPointInDynamicArea(moving_area,x,y,z)){
 			printf("[ADM] Error: Failed to Hunting::Create(%d,%f,%f,%f,...) position out of moving_area",type,x,y,z);
 			return INVALID_HUNTING_ID;
@@ -589,7 +589,7 @@ stock Hunting::Kill(mobid,playerid=INVALID_PLAYER_ID){
 stock Hunting::GetActiveMob(playerid,mob_state){
 	new max_areas = GetPlayerNumberDynamicAreas(playerid);
 	if(max_areas){
-		new STREAMER_TAG_AREA player_areas[128], mobid;
+		new STREAMER_TAG_AREA:player_areas[128], mobid;
 		GetPlayerDynamicAreas(playerid,player_areas,max_areas);
 		for(new k = 0; k < max_areas; k++){
 			if(k >= 128) break;
@@ -630,7 +630,7 @@ T3D:function Hunting::OnUpdate(){
 							Tryg3D::MapAndreasFindZ(vx,vy,vz);
 							vz += 1.0;
 							if(ColAndreas::RayCastLine(x,y,z+1.0,vx,vy,vz,tmp_float,tmp_float,tmp_float)) continue;
-							if(Hunting::Data[mobid][Hunting::areaid] != STREAMER_TAG_AREA INVALID_STREAMER_ID){
+							if(Hunting::Data[mobid][Hunting::areaid] != STREAMER_TAG_AREA:INVALID_STREAMER_ID){
 								if(!IsPointInDynamicArea(Hunting::Data[mobid][Hunting::areaid],vx,vy,vz)) continue;
 							}
 							if(Hunting::Data[mobid][Hunting::last_scared] != INVALID_PLAYER_ID){
@@ -684,7 +684,7 @@ T3D:function Hunting::OnUpdate(){
 }
 
 //Hook: OnPlayerShootDynamicObject
-public OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT objectid, Float:x, Float:y, Float:z){
+public OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT:objectid, Float:x, Float:y, Float:z){
 	new mobid = (Streamer::GetIntData(STREAMER_TYPE_OBJECT,objectid,E_STREAMER_EXTRA_ID)-HUNT_EXTRA_ID_OFFSET);
 	if(mobid > 0 && mobid < MAX_HUNTING_ANIMALS){
 		if(Hunting::Data[mobid][Hunting::objectid] == objectid && Hunting::IsSpawned(mobid)){
@@ -721,11 +721,11 @@ public OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT object
 #endif
 #define OnPlayerShootDynamicObject HUN_OnPlayerShootDynamicObject
 #if defined HUN_OnPlayerShootDynamicObject
-	forward HUN_OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT objectid, Float:x, Float:y, Float:z);
+	forward HUN_OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT:objectid, Float:x, Float:y, Float:z);
 #endif
 
 //Hook: OnPlayerEnterDynamicArea
-public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid){
+public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA:areaid){
 	new Hunting::extraid = Streamer::GetIntData(STREAMER_TYPE_AREA,areaid,E_STREAMER_EXTRA_ID), mobid;
 	
 	mobid = (Hunting::extraid - HUNT_EXTRA_ID_OFFSET);
@@ -767,11 +767,11 @@ public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid){
 #endif
 #define OnPlayerEnterDynamicArea HUN_OnPlayerEnterDynamicArea
 #if defined HUN_OnPlayerEnterDynamicArea
-	forward HUN_OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid);
+	forward HUN_OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA:areaid);
 #endif
 
 //Hook: OnPlayerLeaveDynamicArea
-public OnPlayerLeaveDynamicArea(playerid, STREAMER_TAG_AREA areaid){
+public OnPlayerLeaveDynamicArea(playerid, STREAMER_TAG_AREA:areaid){
 	new Hunting::extraid = Streamer::GetIntData(STREAMER_TYPE_AREA,areaid,E_STREAMER_EXTRA_ID), mobid;
 	
 	mobid = (Hunting::extraid - HUNT_EXTRA_ID_OFFSET);
@@ -796,7 +796,7 @@ public OnPlayerLeaveDynamicArea(playerid, STREAMER_TAG_AREA areaid){
 #endif
 #define OnPlayerLeaveDynamicArea HUN_OnPlayerLeaveDynamicArea
 #if defined HUN_OnPlayerLeaveDynamicArea
-	forward HUN_OnPlayerLeaveDynamicArea(playerid, STREAMER_TAG_AREA areaid);
+	forward HUN_OnPlayerLeaveDynamicArea(playerid, STREAMER_TAG_AREA:areaid);
 #endif
 
 //Hook: OnPlayerKeyStateChange

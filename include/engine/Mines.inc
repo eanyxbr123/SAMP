@@ -10,8 +10,8 @@
  * Plugins: Streamer                                                                                                              *
  * Modules: 3DTryg                                                                                                                *
  *                                                                                                                                *
- * File Version: 2.1.0                                                                                                            *
- * Streamer Version: 2.9.3                                                                                                        *
+ * File Version: 2.1.1                                                                                                            *
+ * Streamer Version: 2.9.4                                                                                                        *
  * 3DTryg Version: 4.6.1                                                                                                          *
  *                                                                                                                                *
  * Functions:                                                                                                                     *
@@ -68,7 +68,7 @@
  **********************************************************************************************************************************/
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 //Check Version 3DTryg.inc
@@ -121,8 +121,8 @@
 
 enum e_mine {
 	mine_status,
-	STREAMER_TAG_OBJECT mine_objectid,
-	STREAMER_TAG_AREA mine_areaid,
+	STREAMER_TAG_OBJECT:mine_objectid,
+	STREAMER_TAG_AREA:mine_areaid,
 	mine_tickcount,
 	mine_type,
 	mine_respawntime,
@@ -412,8 +412,8 @@ public DestroyDynamicMine(mobid){
 	if(MineComponent[mobid][mine_status] == MINE_STATUS_UNACTIVE) return 0;
 	if(IsValidDynamicObject(MineComponent[mobid][mine_objectid])) DestroyDynamicObject(MineComponent[mobid][mine_objectid]);
 	if(IsValidDynamicArea(MineComponent[mobid][mine_areaid])) DestroyDynamicArea(MineComponent[mobid][mine_areaid]);
-	MineComponent[mobid][mine_objectid] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
-	MineComponent[mobid][mine_areaid] = STREAMER_TAG_AREA INVALID_STREAMER_ID;
+	MineComponent[mobid][mine_objectid] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
+	MineComponent[mobid][mine_areaid] = STREAMER_TAG_AREA:INVALID_STREAMER_ID;
 	MineComponent[mobid][mine_health] = 0.0;
 	MineComponent[mobid][mine_maxhealth] = 0.0;
 	MineComponent[mobid][mine_explode] = 0.0;
@@ -465,7 +465,7 @@ public RespawnDynamicMine(mobid){
 }
 
 //Hook: OnPlayerShootDynamicObject
-public OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT objectid, Float:x, Float:y, Float:z){
+public OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT:objectid, Float:x, Float:y, Float:z){
 	new mobid = (Streamer::GetIntData(STREAMER_TYPE_OBJECT,objectid,E_STREAMER_EXTRA_ID)-MINE_EXTRA_ID_OFFSET);
 	if(mobid > 0 && mobid < MAX_MINES){
 		if(MineComponent[mobid][mine_status] == MINE_STATUS_ACTIVE && MineComponent[mobid][mine_objectid] == objectid && MineComponent[mobid][mine_playerid] != playerid){
@@ -499,11 +499,11 @@ public OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT object
 #endif
 #define OnPlayerShootDynamicObject MDM_OnPlayerShootDynamicObject
 #if defined MDM_OnPlayerShootDynamicObject
-	forward MDM_OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT objectid, Float:x, Float:y, Float:z);
+	forward MDM_OnPlayerShootDynamicObject(playerid, weaponid, STREAMER_TAG_OBJECT:objectid, Float:x, Float:y, Float:z);
 #endif
 
 //Hook: OnPlayerEnterDynamicArea
-public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid){
+public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA:areaid){
 	new mobid = (Streamer::GetIntData(STREAMER_TYPE_AREA,areaid,E_STREAMER_EXTRA_ID)-MINE_EXTRA_ID_OFFSET);
 	if(mobid > 0 && mobid < MAX_MINES){
 		if(MineComponent[mobid][mine_status] == MINE_STATUS_ACTIVE && MineComponent[mobid][mine_areaid] == areaid && MineComponent[mobid][mine_playerid] != playerid){
@@ -520,7 +520,7 @@ public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid){
 		}
 	}	
 	#if defined MDM_OnPlayerEnterDynamicArea
-		MDM_OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid);
+		MDM_OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA:areaid);
 	#endif
 	return 1;
 }
@@ -532,7 +532,7 @@ public OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid){
 #endif
 #define OnPlayerEnterDynamicArea MDM_OnPlayerEnterDynamicArea
 #if defined MDM_OnPlayerEnterDynamicArea
-	forward MDM_OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA areaid);
+	forward MDM_OnPlayerEnterDynamicArea(playerid, STREAMER_TAG_AREA:areaid);
 #endif
 
 //EOF

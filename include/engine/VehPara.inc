@@ -10,8 +10,8 @@
  * Plugins: Streamer, ColAndreas                                                                    *
  * Modules: 3DTryg                                                                                  *
  *                                                                                                  *
- * File Version: 1.1.0                                                                              *
- * Streamer Version: 2.9.3                                                                          *
+ * File Version: 1.1.1                                                                              *
+ * Streamer Version: 2.9.4                                                                          *
  * ColAndreas Version: 1.4.0                                                                        *
  * 3DTryg Version: 4.6.1                                                                            *
  *                                                                                                  *
@@ -33,14 +33,12 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 #if !defined COLANDREAS
@@ -70,7 +68,7 @@
 #endif
 
 new VehicleConfigParachute[63],
-	STREAMER_TAG_OBJECT VehicleParachuteObject[MAX_VEHICLES][3],
+	STREAMER_TAG_OBJECT:VehicleParachuteObject[MAX_VEHICLES][3],
 	PlayerUsingVehPara[32],
 	VEHPARA_KEY = KEY_CROUCH;
 
@@ -91,7 +89,7 @@ new VehicleConfigParachute[63],
 stock ToggleVehicleParachute(vehicleid,bool:toggle){
 	for(new i = 0; i < 3; i++){
 		if(IsValidDynamicObject(VehicleParachuteObject[vehicleid][i])) DestroyDynamicObject(VehicleParachuteObject[vehicleid][i]);
-		VehicleParachuteObject[vehicleid][i] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+		VehicleParachuteObject[vehicleid][i] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 	}
 	if(toggle){
 		if(!IsToggleVehicleParachute(vehicleid)){
@@ -115,7 +113,7 @@ stock StartVehicleParachuteAction(playerid){
 	new vid = GetPlayerVehicleID(playerid);
 	for(new i = 0; i < 3; i++){
 		if(IsValidDynamicObject(VehicleParachuteObject[vid][i])) DestroyDynamicObject(VehicleParachuteObject[vid][i]);
-		VehicleParachuteObject[vid][i] =  STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+		VehicleParachuteObject[vid][i] =  STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 	}
 	VehicleParachuteObject[vid][0] = CreateDynamicObject(18849,0.0,0.0,-6000.0,0.0,0.0,0.0,GetPlayerVirtualWorld(playerid),GetPlayerInterior(playerid));
 	

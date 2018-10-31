@@ -10,8 +10,8 @@
  * Plugins: Streamer                                                                                                              *
  * Modules: 3DTryg                                                                                                                *
  *                                                                                                                                *
- * File Version: 2.2.0                                                                                                            *
- * Streamer Version: 2.9.3                                                                                                        *
+ * File Version: 2.2.1                                                                                                            *
+ * Streamer Version: 2.9.4                                                                                                        *
  * 3DTryg Version: 4.6.1                                                                                                          *
  *                                                                                                                                *
  * Functions:                                                                                                                     *
@@ -39,11 +39,11 @@
 /*
 //Check Version Missile.inc
 #if !defined _missile_launcher
-	#error [ADM] You need Missile.inc v2.2.0 (adm.ct8.pl/d/Missile.inc)
+	#error [ADM] You need Missile.inc v2.2.1 (adm.ct8.pl/d/Missile.inc)
 #elseif !defined Missile_Version
-	#error [ADM] Update you Missile.inc to v2.2.0 (adm.ct8.pl/d/Missile.inc)
-#elseif (Missile_Version < 20200)
-	#error [ADM] Update you Missile.inc to v2.2.0 (adm.ct8.pl/d/Missile.inc)
+	#error [ADM] Update you Missile.inc to v2.2.1 (adm.ct8.pl/d/Missile.inc)
+#elseif (Missile_Version < 20201)
+	#error [ADM] Update you Missile.inc to v2.2.1 (adm.ct8.pl/d/Missile.inc)
 #endif
 */
 
@@ -57,14 +57,12 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 //Check Version 3DTryg.inc
@@ -76,7 +74,7 @@
 	#error [ADM] Update you 3DTryg.inc to v4.6.1 (adm.ct8.pl/d/3DTryg.inc)
 #endif
 
-#define Missile_Version						(20200)
+#define Missile_Version						(20201)
 
 #define MISSILE_OBJECT_NORMAL				(0)
 #define MISSILE_OBJECT_BIG					(1)
@@ -112,8 +110,8 @@
 
 enum e_missile {
 	bool:missile_active,
-	STREAMER_TAG_OBJECT missile_objectid,
-	STREAMER_TAG_AREA missile_areaid,
+	STREAMER_TAG_OBJECT:missile_objectid,
+	STREAMER_TAG_AREA:missile_areaid,
 	missile_type,
 	Float:missile_explode,
 	missile_playerid,
@@ -417,7 +415,7 @@ stock MissileDestroy(mobid,type,playerid){
 	if(IsValidDynamicObject(MissileComponent[mobid][missile_objectid])) DestroyDynamicObject(MissileComponent[mobid][missile_objectid]);
 	if(IsValidDynamicArea(MissileComponent[mobid][missile_areaid])) DestroyDynamicArea(MissileComponent[mobid][missile_areaid]);
 	new byplayerid = MissileComponent[mobid][missile_playerid];
-	MissileComponent[mobid][missile_objectid] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+	MissileComponent[mobid][missile_objectid] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 	MissileComponent[mobid][missile_areaid] = STREAMER_TAG_AREA	INVALID_STREAMER_ID;
 	MissileComponent[mobid][missile_type] = 0;
 	MissileComponent[mobid][missile_explode] = 0.0;
@@ -437,7 +435,7 @@ stock MissileDestroy(mobid,type,playerid){
 }
 
 //Hook: OnPlayerShootDynamicObject
-public OnPlayerShootDynamicObject(playerid,weaponid,STREAMER_TAG_OBJECT objectid,Float:x,Float:y,Float:z){
+public OnPlayerShootDynamicObject(playerid,weaponid,STREAMER_TAG_OBJECT:objectid,Float:x,Float:y,Float:z){
 	if(IsValidDynamicObject(objectid)){
 		new mobid = (Streamer::GetIntData(STREAMER_TYPE_OBJECT,objectid,E_STREAMER_EXTRA_ID)-MISSILE_EXTRA_ID_OFFSET);
 		if(mobid > 0 && mobid < MAX_MISSILE){
@@ -461,11 +459,11 @@ public OnPlayerShootDynamicObject(playerid,weaponid,STREAMER_TAG_OBJECT objectid
 #endif
 #define OnPlayerShootDynamicObject MISOnPlayerShootDynamicObject
 #if defined MISOnPlayerShootDynamicObject
-	forward MISOnPlayerShootDynamicObject(playerid,weaponid,STREAMER_TAG_OBJECT objectid,Float:x,Float:y,Float:z);
+	forward MISOnPlayerShootDynamicObject(playerid,weaponid,STREAMER_TAG_OBJECT:objectid,Float:x,Float:y,Float:z);
 #endif
 
 //Hook: OnPlayerEnterDynamicArea
-public OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA areaid){
+public OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA:areaid){
 	new pstate = GetPlayerState(playerid);
 	if(pstate != 1 && pstate != 2 && pstate != 3) return 1;
 	
@@ -492,11 +490,11 @@ public OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA areaid){
 #endif
 #define OnPlayerEnterDynamicArea MIS_OnPlayerEnterDynamicArea
 #if defined MIS_OnPlayerEnterDynamicArea
-	forward MIS_OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA areaid);
+	forward MIS_OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA:areaid);
 #endif
 
 //Hook: OnDynamicObjectMoved
-public OnDynamicObjectMoved(STREAMER_TAG_OBJECT objectid){
+public OnDynamicObjectMoved(STREAMER_TAG_OBJECT:objectid){
 	if(IsValidDynamicObject(objectid)){
 		new mobid = (Streamer::GetIntData(STREAMER_TYPE_OBJECT,objectid,E_STREAMER_EXTRA_ID)-MISSILE_EXTRA_ID_OFFSET);
 		if(mobid > 0 && mobid < MAX_MISSILE){
@@ -560,7 +558,7 @@ public OnDynamicObjectMoved(STREAMER_TAG_OBJECT objectid){
 #endif
 #define OnDynamicObjectMoved MIS_OnDynamicObjectMoved
 #if defined MIS_OnDynamicObjectMoved
-	forward MIS_OnDynamicObjectMoved(STREAMER_TAG_OBJECT objectid);
+	forward MIS_OnDynamicObjectMoved(STREAMER_TAG_OBJECT:objectid);
 #endif
 
 //Hook: OnPlayerDeath

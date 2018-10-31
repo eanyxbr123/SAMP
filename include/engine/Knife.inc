@@ -11,8 +11,8 @@
  * Plugins: Streamer, ColAndreas                                                                    *
  * Modules: 3DTryg                                                                                  *
  *                                                                                                  *
- * File Version: 2.6.0                                                                              *
- * Streamer Version: 2.9.3                                                                          *
+ * File Version: 2.6.1                                                                              *
+ * Streamer Version: 2.9.4                                                                          *
  * ColAndreas Version: 1.4.0                                                                        *
  * 3DTryg Version: 4.6.1                                                                            *
  *                                                                                                  *
@@ -47,14 +47,12 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 #if !defined COLANDREAS
@@ -149,7 +147,7 @@ T3D:function KnifeShot(playerid){
 	
 	if(KnifeLockTarget[playerid] == INVALID_PLAYER_ID){
 		CompRotationFloat(mrz+90.0,trz);
-		new STREAMER_TAG_OBJECT tmpobj = CreateDynamicObject(335,mx,my,mz,0.0,90.0,trz,mvw,mint,-1);
+		new STREAMER_TAG_OBJECT:tmpobj = CreateDynamicObject(335,mx,my,mz,0.0,90.0,trz,mvw,mint,-1);
 		GetPointInFront3DCol(mx,my,mz,356.7,mrz,GetKnifeShootRange(playerid),mtx,mty,mtz);		
 		GetMoveTime(mx,my,mz,mtx,mty,mtz,GetKnifeShootSpeed(playerid),mtime);
 		MoveDynamicObject(tmpobj,mtx,mty,mtz,GetKnifeShootSpeed(playerid),0.0,110.0,trz);
@@ -158,7 +156,7 @@ T3D:function KnifeShot(playerid){
 		GetPlayerPos(KnifeLockTarget[playerid],px,py,pz);
 		GetRotationFor2Point2D(mx,my,px,py,trz);
 		CompRotationFloat(trz+90.0,trz);
-		new STREAMER_TAG_OBJECT tmpobj = CreateDynamicObject(335,mx,my,mz,0.0,90.0,trz,mvw,mint,-1);
+		new STREAMER_TAG_OBJECT:tmpobj = CreateDynamicObject(335,mx,my,mz,0.0,90.0,trz,mvw,mint,-1);
 		GetMoveTime(mx,my,mz,px,py,pz,GetKnifeShootSpeed(playerid),mtime);
 		MoveDynamicObject(tmpobj,px,py,pz,GetKnifeShootSpeed(playerid),0.0,90.0,trz);
 		SetTimerEx("KnifeDestroy",mtime,0,"ddd",_:tmpobj,KnifeLockTarget[playerid],playerid);
@@ -167,7 +165,7 @@ T3D:function KnifeShot(playerid){
 	return KnifeLockTarget[playerid];
 }
 
-T3D:function KnifeDestroy(STREAMER_TAG_OBJECT objectid,targetid,playerid){
+T3D:function KnifeDestroy(STREAMER_TAG_OBJECT:objectid,targetid,playerid){
 	if(IsValidDynamicObject(objectid)) DestroyDynamicObject(objectid);
 	if(targetid != INVALID_PLAYER_ID){
 		Tryg3D::GivePlayerDamage(targetid,GetKnifeShootDamage(playerid),playerid,4,3);

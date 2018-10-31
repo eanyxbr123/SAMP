@@ -10,8 +10,8 @@
  * Plugins: Streamer, ColAndreas/MapAndreas                                                         *
  * Modules: 3DTryg, StreamerFunction                                                                *
  *                                                                                                  *
- * File Version: 1.4.2                                                                              *
- * Streamer Version: 2.9.3                                                                          *
+ * File Version: 1.4.3                                                                              *
+ * Streamer Version: 2.9.4                                                                          *
  * MapAndreas Version: 1.2.1                                                                        *
  * ColAndreas Version: 1.4.0                                                                        *
  * 3DTryg Version: 4.6.1                                                                            *
@@ -26,14 +26,12 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 //Check Version 3DTryg.inc
@@ -66,7 +64,7 @@
 #define	MAX_SANTAGIFTS			(100)
 #define REFRESH_SANTAGIFTS		(2*60*60*1000)	//2 hour
 
-new SantaGift[MAX_SANTAGIFTS],
+new STREAMER_TAG_PICKUP:SantaGift[MAX_SANTAGIFTS],
 	SantaTimer[1];
 
 #if defined SANTA_IS_EASTER_EVENT
@@ -117,7 +115,7 @@ stock SantaInit(){
 	return 1;
 }
 
-forward SantaPickUp(playerid,pickupid);
+forward SantaPickUp(playerid,STREAMER_TAG_PICKUP:pickupid);
 forward SantaReset(tec);
 forward SantaGiftCreate(giftid);
 forward SantaGiftReset(giftid);
@@ -193,7 +191,7 @@ public OnFilterScriptExit(){
 
 forward OnSantaPickupReward(playerid);
 
-public SantaPickUp(playerid,pickupid){
+public SantaPickUp(playerid,STREAMER_TAG_PICKUP:pickupid){
 	for(new i = 0; i < MAX_SANTAGIFTS; i++){
 		if(pickupid == SantaGift[i]){
 			SantaGiftReset(i);
@@ -205,7 +203,7 @@ public SantaPickUp(playerid,pickupid){
 }
 
 //OnPlayerPickUpDynamicPickup
-public OnPlayerPickUpDynamicPickup(playerid,pickupid){
+public OnPlayerPickUpDynamicPickup(playerid,STREAMER_TAG_PICKUP:pickupid){
 	SantaPickUp(playerid,pickupid);
 	#if defined Santa_OnPlayerPickUpPickup
 		Santa_OnPlayerPickUpPickup(playerid,pickupid);
@@ -220,7 +218,7 @@ public OnPlayerPickUpDynamicPickup(playerid,pickupid){
 #endif
 #define OnPlayerPickUpDynamicPickup Santa_OnPlayerPickUpPickup
 #if defined Santa_OnPlayerPickUpPickup
-	forward Santa_OnPlayerPickUpPickup(playerid,pickupid);
+	forward Santa_OnPlayerPickUpPickup(playerid,STREAMER_TAG_PICKUP:pickupid);
 #endif
 
 public SantaReset(tec){

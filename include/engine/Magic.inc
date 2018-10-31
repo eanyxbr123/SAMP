@@ -11,8 +11,8 @@
  * Plugins: Streamer, ColAndreas                                                                    *
  * Modules: 3DTryg                                                                                  *
  *                                                                                                  *
- * File Version: 1.2.0                                                                              *
- * Streamer Version: 2.9.3                                                                          *
+ * File Version: 1.2.1                                                                              *
+ * Streamer Version: 2.9.4                                                                          *
  * ColAndreas Version: 1.4.0                                                                        *
  * 3DTryg Version: 4.6.1                                                                            *
  *                                                                                                  *
@@ -51,14 +51,12 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 #if !defined COLANDREAS
@@ -178,7 +176,7 @@ T3D:function MagicShot(playerid){
 	
 	ApplyAnimation(playerid,"KNIFE","knife_3",4.1,0,1,1,0,0,1);
 	if(MagicLockTarget[playerid] == INVALID_PLAYER_ID){
-		new STREAMER_TAG_OBJECT tmpobj = CreateDynamicObject(MagicP[playerid][T3D:INT],mx+MagicP[playerid][T3D:X],my+MagicP[playerid][T3D:Y],mz+MagicP[playerid][T3D:Z],MagicP[playerid][T3D:rX],MagicP[playerid][T3D:rY],CompRotationFloat(mrz+MagicP[playerid][T3D:rZ]),mvw,mint,-1,_,100.0);
+		new STREAMER_TAG_OBJECT:tmpobj = CreateDynamicObject(MagicP[playerid][T3D:INT],mx+MagicP[playerid][T3D:X],my+MagicP[playerid][T3D:Y],mz+MagicP[playerid][T3D:Z],MagicP[playerid][T3D:rX],MagicP[playerid][T3D:rY],CompRotationFloat(mrz+MagicP[playerid][T3D:rZ]),mvw,mint,-1,_,100.0);
 		GetDynamicObjectPos(tmpobj,mx,my,mz);
 		GetPointInFront3DCol(mx,my,mz,0.0,mrz,GetMagicShootRange(playerid),mtx,mty,mtz);		
 		GetMoveTime(mx,my,mz,mtx,mty,mtz,GetMagicShootSpeed(playerid),mtime);
@@ -187,7 +185,7 @@ T3D:function MagicShot(playerid){
 	} else {
 		GetPlayerPos(MagicLockTarget[playerid],px,py,pz);
 		GetRotationFor2Point2D(mx,my,px,py,mrz);
-		new STREAMER_TAG_OBJECT tmpobj = CreateDynamicObject(MagicP[playerid][T3D:INT],mx+MagicP[playerid][T3D:X],my+MagicP[playerid][T3D:Y],mz+MagicP[playerid][T3D:Z],MagicP[playerid][T3D:rX],MagicP[playerid][T3D:rY],CompRotationFloat(mrz+MagicP[playerid][T3D:rZ]),mvw,mint,-1,_,100.0);
+		new STREAMER_TAG_OBJECT:tmpobj = CreateDynamicObject(MagicP[playerid][T3D:INT],mx+MagicP[playerid][T3D:X],my+MagicP[playerid][T3D:Y],mz+MagicP[playerid][T3D:Z],MagicP[playerid][T3D:rX],MagicP[playerid][T3D:rY],CompRotationFloat(mrz+MagicP[playerid][T3D:rZ]),mvw,mint,-1,_,100.0);
 		GetDynamicObjectPos(tmpobj,mx,my,mz);
 		GetMoveTime(mx,my,mz,px,py,pz,GetMagicShootSpeed(playerid),mtime);
 		MoveDynamicObject(tmpobj,px,py,pz,GetMagicShootSpeed(playerid),MagicP[playerid][T3D:rX],MagicP[playerid][T3D:rY],CompRotationFloat(mrz+MagicP[playerid][T3D:rZ]));
@@ -197,7 +195,7 @@ T3D:function MagicShot(playerid){
 	return MagicLockTarget[playerid];
 }
 
-T3D:function MagicDestroy(STREAMER_TAG_OBJECT objectid,targetid,playerid){
+T3D:function MagicDestroy(STREAMER_TAG_OBJECT:objectid,targetid,playerid){
 	if(IsValidDynamicObject(objectid)) DestroyDynamicObject(objectid);
 	if(targetid != INVALID_PLAYER_ID){
 		Tryg3D::GivePlayerDamage(targetid,GetMagicShootDamage(playerid),playerid,7,3);

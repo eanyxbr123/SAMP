@@ -10,8 +10,8 @@
  * Plugins: Streamer                                                                                                              *
  * Modules: 3DTryg                                                                                                                *
  *                                                                                                                                *
- * File Version: 1.1.1                                                                                                            *
- * Streamer Version: 2.9.3                                                                                                        *
+ * File Version: 1.1.2                                                                                                            *
+ * Streamer Version: 2.9.4                                                                                                        *
  * 3DTryg Version: 4.6.1                                                                                                          *
  *                                                                                                                                *
  * Definitions:                                                                                                                   *
@@ -44,7 +44,7 @@
 	#error [ADM] You need Stingers.inc v1.1.1
 #elseif !defined Stingers_Version
 	#error [ADM] Update you Stingers.inc to v1.1.1
-#elseif (Data_Convert_Version < 10101)
+#elseif (Data_Convert_Version < 10102)
 	#error [ADM] Update you Stingers.inc to v1.1.1
 #endif
 */
@@ -59,14 +59,12 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if ((!defined Streamer_GetItemPos) || (!defined INVALID_STREAMER_ID) || (!defined STREAMER_TYPE_ACTOR))
-	#error [ADM] You need Streamer v2.9.3 (github.com/samp-incognito/samp-streamer-plugin/releases)
+	#error [ADM] You need Streamer v2.9.4 (github.com/samp-incognito/samp-streamer-plugin/releases)
 #endif
 
 //Check Version 3DTryg.inc
@@ -79,7 +77,7 @@
 #endif
 
 
-#define Stingers_Version						(10101) //a.b.c 10000*a+100*b+c
+#define Stingers_Version						(10102) //a.b.c 10000*a+100*b+c
 
 #define STINGERS_EXTRA_ID_OFFSET				(500000)
 
@@ -100,13 +98,13 @@ enum e_stingers {
 	bool:stin_active,
 	stin_teamid,
 	stin_byplayerid,
-	STREAMER_TAG_AREA stin_areaid,
-	STREAMER_TAG_OBJECT stin_objectid,
+	STREAMER_TAG_AREA:stin_areaid,
+	STREAMER_TAG_OBJECT:stin_objectid,
 	stin_type,
 	stin_damage
 };
 
-new	STREAMER_TAG_AREA STIN_ActiveForPlayer[MAX_PLAYERS],
+new	STREAMER_TAG_AREA:STIN_ActiveForPlayer[MAX_PLAYERS],
 	STIN_PlayerStinger[MAX_PLAYERS],
 	Float:STIN_PlayerHCP[MAX_PLAYERS][9],
 	STIN_LastVehicle[MAX_PLAYERS],
@@ -188,7 +186,7 @@ stock DestroyDynamicStinger(mobid){
 }
 
 //Hook: OnPlayerEnterDynamicArea
-public OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA areaid){
+public OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA:areaid){
 	new mobid = (Streamer::GetIntData(STREAMER_TYPE_AREA,areaid,E_STREAMER_EXTRA_ID)-STINGERS_EXTRA_ID_OFFSET);
 	if(mobid >= 1 && mobid < MAX_STINGERS){
 		if(Stingers[mobid][stin_areaid] == areaid){
@@ -219,15 +217,15 @@ public OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA areaid){
 #endif
 #define OnPlayerEnterDynamicArea STIN_OnPlayerEnterDynamicArea
 #if defined STIN_OnPlayerEnterDynamicArea
-	forward STIN_OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA areaid);
+	forward STIN_OnPlayerEnterDynamicArea(playerid,STREAMER_TAG_AREA:areaid);
 #endif
 
 //Hook: OnPlayerLeaveDynamicArea
-public OnPlayerLeaveDynamicArea(playerid,STREAMER_TAG_AREA areaid){
+public OnPlayerLeaveDynamicArea(playerid,STREAMER_TAG_AREA:areaid){
 	new mobid = (Streamer::GetIntData(STREAMER_TYPE_AREA,areaid,E_STREAMER_EXTRA_ID)-STINGERS_EXTRA_ID_OFFSET);
 	if(mobid >= 1 && mobid < MAX_STINGERS){
 		if(Stingers[mobid][stin_areaid] == areaid && STIN_ActiveForPlayer[playerid] == areaid){
-			STIN_ActiveForPlayer[playerid] = STREAMER_TAG_AREA INVALID_STREAMER_ID;
+			STIN_ActiveForPlayer[playerid] = STREAMER_TAG_AREA:INVALID_STREAMER_ID;
 		}
 	}
 	#if defined STIN_OnPlayerLeaveDynamicArea
@@ -243,12 +241,12 @@ public OnPlayerLeaveDynamicArea(playerid,STREAMER_TAG_AREA areaid){
 #endif
 #define OnPlayerLeaveDynamicArea STIN_OnPlayerLeaveDynamicArea
 #if defined STIN_OnPlayerLeaveDynamicArea
-	forward STIN_OnPlayerLeaveDynamicArea(playerid,STREAMER_TAG_AREA areaid);
+	forward STIN_OnPlayerLeaveDynamicArea(playerid,STREAMER_TAG_AREA:areaid);
 #endif
 
 //Hook: OnPlayerUpdate
 public OnPlayerUpdate(playerid){
- 	if(STIN_ActiveForPlayer[playerid] != STREAMER_TAG_AREA INVALID_STREAMER_ID && STIN_LastVehicle[playerid] != 0){
+ 	if(STIN_ActiveForPlayer[playerid] != STREAMER_TAG_AREA:INVALID_STREAMER_ID && STIN_LastVehicle[playerid] != 0){
 		new mobid = STIN_PlayerStinger[playerid];
 		if(Stingers[mobid][stin_damage]){
 			new panels,doors,lights,tires,TireStatus[4],new_tires;
@@ -331,7 +329,7 @@ public OnPlayerStateChange(playerid,newstate,oldstate){
 
 //Hook: OnPlayerDisconnect
 public OnPlayerDisconnect(playerid,reason){
-	STIN_ActiveForPlayer[playerid] = STREAMER_TAG_AREA INVALID_STREAMER_ID;
+	STIN_ActiveForPlayer[playerid] = STREAMER_TAG_AREA:INVALID_STREAMER_ID;
 	STIN_LastVehicle[playerid] = 0;
 	#if defined STIN_OnPlayerDisconnect
 		STIN_OnPlayerDisconnect(playerid,reason);
