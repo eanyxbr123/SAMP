@@ -2,7 +2,7 @@
 #include <ADM/StreamerFunction>
 */
 
-forward CheckPlayerWeaponPickup(playerid,pickupid); //OnPlayerPickUpDynamicPickup(playerid, STREAMER_TAG_PICKUP pickupid);
+forward CheckPlayerWeaponPickup(playerid,pickupid); //OnPlayerPickUpDynamicPickup(playerid, STREAMER_TAG_PICKUP:pickupid);
 
 public CheckPlayerWeaponPickup(playerid,pickupid){
 	if(GetDynamicPickupType(pickupid) == 2){

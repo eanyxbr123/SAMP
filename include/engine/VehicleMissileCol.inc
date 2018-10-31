@@ -11,7 +11,7 @@
  * Modules: 3DTryg, Missile                                                                                                       *
  *                                                                                                                                *
  * File Version: 1.9.0                                                                                                            *
- * Streamer Version: 2.9.3                                                                                                        *
+ * Streamer Version: 2.9.4                                                                                                        *
  * ColAndreas Version: 1.4.0                                                                                                      *
  * 3DTryg Version: 4.6.1                                                                                                          *
  * Missile Version: 2.2.0                                                                                                         *

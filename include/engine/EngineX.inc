@@ -11,7 +11,7 @@
  * Modules: 3DTryg                                                                                                                 *
  *                                                                                                                                 *
  * File Version: 5.1.24                                                                                                            *
- * Streamer Version: 2.9.3                                                                                                         *
+ * Streamer Version: 2.9.4                                                                                                         *
  * MapAndreas Version: 1.2.1                                                                                                       *
  * 3DTryg Version: 4.6.1                                                                                                           *
  *                                                                                                                                 *
