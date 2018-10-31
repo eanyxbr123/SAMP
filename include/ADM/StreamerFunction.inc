@@ -11,7 +11,7 @@
  * Plugins: Streamer                                                                                                                       *
  * Modules: None                                                                                                                           *
  *                                                                                                                                         *
- * File Version: 2.9.0                                                                                                                     *
+ * File Version: 2.9.1                                                                                                                     *
  * Streamer Version: 2.9.4                                                                                                                 *
  *                                                                                                                                         *
  * Compiler Options:                                                                                                                       *
@@ -378,11 +378,11 @@
 /*
 //Check Version StreamerFunction.inc
 #if !defined _streamer_spec
-	#error [ADM] You need StreamerFunction.inc v2.9.0 (adm.ct8.pl/d/StreamerFunction.inc)
+	#error [ADM] You need StreamerFunction.inc v2.9.1 (adm.ct8.pl/d/StreamerFunction.inc)
 #elseif !defined Streamer_Spec_Version
-	#error [ADM] Update you StreamerFunction.inc to v2.9.0 (adm.ct8.pl/d/StreamerFunction.inc)
-#elseif (Streamer_Spec_Version < 20900)
-	#error [ADM] Update you StreamerFunction.inc to v2.9.0 (adm.ct8.pl/d/StreamerFunction.inc)
+	#error [ADM] Update you StreamerFunction.inc to v2.9.1 (adm.ct8.pl/d/StreamerFunction.inc)
+#elseif (Streamer_Spec_Version < 20901)
+	#error [ADM] Update you StreamerFunction.inc to v2.9.1 (adm.ct8.pl/d/StreamerFunction.inc)
 #endif
 */
 
@@ -407,7 +407,7 @@
 	#define SSpec_StreamerVehicle
 #endif
 
-#define Streamer_Spec_Version 					(20900) //a.b.c 10000*a+100*b+c
+#define Streamer_Spec_Version 					(20901) //a.b.c 10000*a+100*b+c
 #define Streamer_Spec_SAMP_Version				"0.3.7"
 #define Valid_Streamer_Version 					(0x293)
 
