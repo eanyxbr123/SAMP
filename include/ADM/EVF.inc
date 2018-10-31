@@ -11,8 +11,8 @@
  * Plugins: Streamer                                                                                                              *
  * Modules: None                                                                                                                  *
  *                                                                                                                                *
- * File Version: 3.3.0                                                                                                            *
- * Streamer Version: 2.9.1                                                                                                        *
+ * File Version: 3.3.1                                                                                                            *
+ * Streamer Version: 2.9.4                                                                                                        *
  *                                                                                                                                *
  * Functions:                                                                                                                     *
  * IsValidVehicleModelID(modelid);                                                                                                *
@@ -253,11 +253,11 @@
 /*
 //Check Version EVF.inc
 #if !defined _EVF_include
-	#error [ADM] You need EVF.inc v3.3.0
+	#error [ADM] You need EVF.inc v3.3.1
 #elseif !defined EVF_Version
-	#error [ADM] Update you EVF.inc to v3.3.0
-#elseif (EVF_Version < 30300)
-	#error [ADM] Update you EVF.inc to v3.3.0
+	#error [ADM] Update you EVF.inc to v3.3.1
+#elseif (EVF_Version < 30301)
+	#error [ADM] Update you EVF.inc to v3.3.1
 #endif
 */
 
@@ -270,10 +270,8 @@
 	#if (!defined GetPlayerPoolSize || !defined GetSVarInt)
 		#error [ADM] This include requires SA:MP version 0.3.7 (adm.ct8.pl/r/download)
 	#endif
-#elseif defined _rwmp_included
-	#error [ADM] This game currently is not supported
 #else
-	#error [ADM] Not found any general game includes
+	#error [ADM] This include requires SA:MP Include
 #endif
 
 #if defined _Vehicle_Ex
@@ -297,7 +295,7 @@
 	#error [ADM] Please include a_http.inc before EVF.inc
 #endif
 
-#define EVF_Version									(30300) //a.b.c 10000*a+100*b+c
+#define EVF_Version									(30301) //a.b.c 10000*a+100*b+c
 #define EVF_SAMP_Version							"0.3.7"
 
 #define EVF_Function::								stock
@@ -458,7 +456,7 @@ enum EVF::ParamTypes {
 
 enum EVF::VehicleData {
 	#if defined EVF_Streamer
-	STREAMER_TAG_OBJECT e_attached_object[MAX_VEHICLE_ATTACHED_OBJECTS],
+	STREAMER_TAG_OBJECT:e_attached_object[MAX_VEHICLE_ATTACHED_OBJECTS],
 	#endif
 	Float:e_vel_x,
 	Float:e_vel_y,
@@ -475,7 +473,7 @@ enum EVF::PlayerData {
 	e_editor_vehicle
 	#if defined EVF_Streamer
 	,
-	STREAMER_TAG_OBJECT e_editor_object
+	STREAMER_TAG_OBJECT:e_editor_object
 	#endif
 };
 
@@ -936,8 +934,8 @@ new EVF::VehicleTrailerID[MAX_VEHICLES],
 	EVF::ModShopStatus[MAX_PLAYERS];
 	
 #if defined EVF_Streamer
-	new STREAMER_TAG_OBJECT EVF::VehicleNeon[MAX_VEHICLES][MAX_VEHICLE_NEON_SLOT][2],
-		STREAMER_TAG_OBJECT EVF::Blink[MAX_VEHICLES][4],
+	new STREAMER_TAG_OBJECT:EVF::VehicleNeon[MAX_VEHICLES][MAX_VEHICLE_NEON_SLOT][2],
+		STREAMER_TAG_OBJECT:EVF::Blink[MAX_VEHICLES][4],
 		EVF::BlinkSide[MAX_VEHICLES],
 		Float:EVF::BlinkR[MAX_VEHICLES],
 		bool:EVF::VehicleBlinking = false;
@@ -1839,8 +1837,8 @@ EVF::Function:: EVF::IsTrailer(vehicleid){
 		if(IsValidDynamicObject(EVF::Blink[vehicleid][1])) DestroyDynamicObject(EVF::Blink[vehicleid][1]);
 		if(IsValidDynamicObject(EVF::Blink[vehicleid][2])) DestroyDynamicObject(EVF::Blink[vehicleid][2]);
 		if(IsValidDynamicObject(EVF::Blink[vehicleid][3])) DestroyDynamicObject(EVF::Blink[vehicleid][3]);
-		EVF::Blink[vehicleid][0] = EVF::Blink[vehicleid][1] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
-		EVF::Blink[vehicleid][2] = EVF::Blink[vehicleid][3] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+		EVF::Blink[vehicleid][0] = EVF::Blink[vehicleid][1] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
+		EVF::Blink[vehicleid][2] = EVF::Blink[vehicleid][3] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 		EVF::BlinkSide[vehicleid] = EVF_CAR_BLINK_NONE;
 		return 1;
 	}
@@ -1848,7 +1846,7 @@ EVF::Function:: EVF::IsTrailer(vehicleid){
 	EVF::Function:: EVF::SetCarBlinking(vehicleid,side,bool:skip=false){
 		if(!IsValidVehicle(vehicleid)) return 0;
 		if(EVF::IsCarBlinking(vehicleid) && !skip) return EVF::DisableCarBlinking(vehicleid);
-		new id = GetVehicleModel(vehicleid)-400, trailerid, STREAMER_TAG_OBJECT obj[4];
+		new id = GetVehicleModel(vehicleid)-400, trailerid, STREAMER_TAG_OBJECT:obj[4];
 
 		if(!skip) EVF::BlinkSide[vehicleid] = side;
 
@@ -1897,51 +1895,51 @@ EVF::Function:: EVF::IsTrailer(vehicleid){
 
 			switch(side){
 				case EVF_CAR_BLINK_LEFT: {
-					if(obj[0] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+					if(obj[0] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 						AttachDynamicObjectToVehicle(obj[0],vehicleid,EVF::BlinkOffsetData[id][EVF::X],EVF::BlinkOffsetData[id][EVF::Y],EVF::BlinkOffsetData[id][EVF::Z],0.0,0.0,0.0);
 					}
 					if(trailerid != 0){
 						id = GetVehicleModel(trailerid)-400;
 						AttachDynamicObjectToVehicle(obj[1],trailerid,EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 					} else {
-						if(obj[1] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+						if(obj[1] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 							AttachDynamicObjectToVehicle(obj[1],vehicleid,EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 						}
 					}
 				}
 				case EVF_CAR_BLINK_RIGHT: {
-					if(obj[2] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+					if(obj[2] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 						AttachDynamicObjectToVehicle(obj[2],vehicleid,-EVF::BlinkOffsetData[id][EVF::X],EVF::BlinkOffsetData[id][EVF::Y],EVF::BlinkOffsetData[id][EVF::Z],0.0,0.0,0.0);
 					}
 					if(trailerid != 0){
 						id = GetVehicleModel(trailerid)-400;
 						AttachDynamicObjectToVehicle(obj[3],trailerid,-EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 					} else {
-						if(obj[3] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+						if(obj[3] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 							AttachDynamicObjectToVehicle(obj[3],vehicleid,-EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 						}
 					}
 				}
 				case EVF_CAR_BLINK_EMERGENCY: {
-					if(obj[0] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+					if(obj[0] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 						AttachDynamicObjectToVehicle(obj[0],vehicleid,EVF::BlinkOffsetData[id][EVF::X],EVF::BlinkOffsetData[id][EVF::Y],EVF::BlinkOffsetData[id][EVF::Z],0.0,0.0,0.0);
 					}
 					if(trailerid != 0){
 						id = GetVehicleModel(trailerid)-400;
 						AttachDynamicObjectToVehicle(obj[1],trailerid,EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 					} else {
-						if(obj[1] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+						if(obj[1] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 							AttachDynamicObjectToVehicle(obj[1],vehicleid,EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 						}
 					}
-					if(obj[2] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+					if(obj[2] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 						AttachDynamicObjectToVehicle(obj[2],vehicleid,-EVF::BlinkOffsetData[id][EVF::X],EVF::BlinkOffsetData[id][EVF::Y],EVF::BlinkOffsetData[id][EVF::Z],0.0,0.0,0.0);
 					}
 					if(trailerid != 0){
 						id = GetVehicleModel(trailerid)-400;
 						AttachDynamicObjectToVehicle(obj[3],trailerid,-EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 					} else {
-						if(obj[3] != STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+						if(obj[3] != STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 							AttachDynamicObjectToVehicle(obj[3],vehicleid,-EVF::BlinkOffsetData[id][EVF::rX],EVF::BlinkOffsetData[id][EVF::rY],EVF::BlinkOffsetData[id][EVF::rZ],0.0,0.0,0.0);
 						}
 					}
@@ -1990,7 +1988,7 @@ EVF::Function:: GetVehicleComponentPrice(componentid){
 		
 		if(IsValidDynamicObject(EVF::VehicleNeon[vehicleid][slotid][0])) DestroyDynamicObject(EVF::VehicleNeon[vehicleid][slotid][0]);
 		if(IsValidDynamicObject(EVF::VehicleNeon[vehicleid][slotid][1])) DestroyDynamicObject(EVF::VehicleNeon[vehicleid][slotid][1]);
-		EVF::VehicleNeon[vehicleid][slotid][0] = EVF::VehicleNeon[vehicleid][slotid][1] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+		EVF::VehicleNeon[vehicleid][slotid][0] = EVF::VehicleNeon[vehicleid][slotid][1] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 		
 		if(!enable) return 1;
 		if(18647 <= color <= 18652){
@@ -2267,12 +2265,12 @@ EVF::Function:: GetVehicleNextSeat(vehicleid,passenger = 1){
 }
 
 #if defined EVF_Streamer
-	EVF::Function:: STREAMER_TAG_OBJECT GetVehicleSlotAttachedObject(vehicleid,slot){
-		if(!IsValidDynamicObject(EVF::VehicleTempData[vehicleid][e_attached_object][slot])) return STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+	EVF::Function:: STREAMER_TAG_OBJECT:GetVehicleSlotAttachedObject(vehicleid,slot){
+		if(!IsValidDynamicObject(EVF::VehicleTempData[vehicleid][e_attached_object][slot])) return STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 		return EVF::VehicleTempData[vehicleid][e_attached_object][slot];
 	}
 
-	EVF::Function:: IsObjectAttachedToVehicle(STREAMER_TAG_OBJECT objectid,vehicleid){
+	EVF::Function:: IsObjectAttachedToVehicle(STREAMER_TAG_OBJECT:objectid,vehicleid){
 		for(new i = 0; i < MAX_VEHICLE_ATTACHED_OBJECTS; i++){
 			if(IsValidDynamicObject(EVF::VehicleTempData[vehicleid][e_attached_object][i])){
 				if(EVF::VehicleTempData[vehicleid][e_attached_object][i] == objectid) return 1;
@@ -2282,21 +2280,21 @@ EVF::Function:: GetVehicleNextSeat(vehicleid,passenger = 1){
 	}
 	
 	EVF::Function:: EditVehicle(playerid,vehicleid){
-		if(IsValidDynamicObject(STREAMER_TAG_OBJECT GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR))) return false;
+		if(IsValidDynamicObject(STREAMER_TAG_OBJECT:GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR))) return false;
 
 		new Float:pos[3];
 		GetVehiclePos(vehicleid,pos[0],pos[1],pos[2]);
 		SetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR,_:CreateDynamicObject(19300,pos[0],pos[1],pos[2],0.0,0.0,0.0));
 
-		EditDynamicObject(playerid,STREAMER_TAG_OBJECT GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR));
+		EditDynamicObject(playerid,STREAMER_TAG_OBJECT:GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR));
 
 		EVF::PlayerTempData[playerid][e_editor_vehicle] = vehicleid;
-		EVF::PlayerTempData[playerid][e_editor_object] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+		EVF::PlayerTempData[playerid][e_editor_object] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 		return true;
 	}
 
-	EVF::Function:: EditVehicleObject(playerid,vehicleid,STREAMER_TAG_OBJECT objectid){
-		if(IsValidDynamicObject(STREAMER_TAG_OBJECT GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR))) return false;
+	EVF::Function:: EditVehicleObject(playerid,vehicleid,STREAMER_TAG_OBJECT:objectid){
+		if(IsValidDynamicObject(STREAMER_TAG_OBJECT:GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR))) return false;
 
 		if(!IsValidDynamicObject(objectid)) return false;
 
@@ -2313,7 +2311,7 @@ EVF::Function:: GetVehicleNextSeat(vehicleid,passenger = 1){
 		DestroyDynamicObject(objectid);
 		SetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR,_:CreateDynamicObject(model,pos[0],pos[1],pos[2],angle,0.0,0.0));
 
-		EditDynamicObject(playerid,STREAMER_TAG_OBJECT GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR));
+		EditDynamicObject(playerid,STREAMER_TAG_OBJECT:GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR));
 
 		SetVehicleZAngle(vehicleid,0.0);
 
@@ -2859,7 +2857,7 @@ EVF::Function:: EVF::CreateVehicle(modelid,Float:x,Float:y,Float:z,Float:angle,c
 	
 	#if defined EVF_Streamer
 		for(new i = 0; i < MAX_VEHICLE_ATTACHED_OBJECTS; i++){
-			EVF::VehicleTempData[vehicleid][e_attached_object][i] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+			EVF::VehicleTempData[vehicleid][e_attached_object][i] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 		}
 	#endif
 	EVF::VehicleTempData[vehicleid][e_pos_x] = x;
@@ -2950,11 +2948,11 @@ EVF::Function:: EVF::DestroyVehicle(vehicleid){
 	}
 	#if defined EVF_Streamer
 		new objectid = GetVehiclePropertyValue(vehicleid,e_VEHICLE_EDITOR);
-		DestroyDynamicObject(STREAMER_TAG_OBJECT objectid);
+		DestroyDynamicObject(STREAMER_TAG_OBJECT:objectid);
 		for(new i = 0; i < MAX_VEHICLE_ATTACHED_OBJECTS; i++){
 			if(IsValidDynamicObject(EVF::VehicleTempData[vehicleid][e_attached_object][i])){
 				DestroyDynamicObject(EVF::VehicleTempData[vehicleid][e_attached_object][i]);
-				EVF::VehicleTempData[vehicleid][e_attached_object][i] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+				EVF::VehicleTempData[vehicleid][e_attached_object][i] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 			}
 		}
 		for(new slotid = 0; slotid < MAX_VEHICLE_NEON_SLOT; slotid++){
@@ -3144,7 +3142,7 @@ public OnVehicleMod(playerid,vehicleid,componentid){
 #endif
 
 #if defined EVF_Streamer
-	EVF::Function:: EVF::AttachObjectToVehicle(STREAMER_TAG_OBJECT objectid,vehicleid,Float:OffsetX,Float:OffsetY,Float:OffsetZ,Float:RotX,Float:RotY,Float:RotZ){
+	EVF::Function:: EVF::AttachObjectToVehicle(STREAMER_TAG_OBJECT:objectid,vehicleid,Float:OffsetX,Float:OffsetY,Float:OffsetZ,Float:RotX,Float:RotY,Float:RotZ){
 		for(new i = 0; i < MAX_VEHICLE_ATTACHED_OBJECTS; i++){
 			if(!IsValidDynamicObject(EVF::VehicleTempData[vehicleid][e_attached_object][i])){
 				if(AttachDynamicObjectToVehicle(objectid,vehicleid,OffsetX,OffsetY,OffsetZ,RotX,RotY,RotZ)){
@@ -3164,9 +3162,9 @@ public OnVehicleMod(playerid,vehicleid,componentid){
 	#define AttachDynamicObjectToVehicle EVF_AttachObjectToVehicle
 	
 	//Hook: OnPlayerEditDynamicObject
-	public OnPlayerEditDynamicObject(playerid,STREAMER_TAG_OBJECT objectid,response,Float:x,Float:y,Float:z,Float:rx,Float:ry,Float:rz){
+	public OnPlayerEditDynamicObject(playerid,STREAMER_TAG_OBJECT:objectid,response,Float:x,Float:y,Float:z,Float:rx,Float:ry,Float:rz){
 		if(IsValidVehicle(EVF::PlayerTempData[playerid][e_editor_vehicle])){
-			if(EVF::PlayerTempData[playerid][e_editor_object] == STREAMER_TAG_OBJECT INVALID_STREAMER_ID){
+			if(EVF::PlayerTempData[playerid][e_editor_object] == STREAMER_TAG_OBJECT:INVALID_STREAMER_ID){
 				if(GetVehiclePropertyValue(EVF::PlayerTempData[playerid][e_editor_vehicle],e_VEHICLE_EDITOR) == _:objectid){
 					SetVehiclePos(EVF::PlayerTempData[playerid][e_editor_vehicle],x,y,z);
 					SetVehicleZAngle(EVF::PlayerTempData[playerid][e_editor_vehicle],rz);
@@ -3181,7 +3179,7 @@ public OnVehicleMod(playerid,vehicleid,componentid){
 							SetVehicleVelocity(EVF::PlayerTempData[playerid][e_editor_vehicle],0.0,0.0,0.0);
 
 							EVF::PlayerTempData[playerid][e_editor_vehicle] = INVALID_VEHICLE_ID;
-							EVF::PlayerTempData[playerid][e_editor_object] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+							EVF::PlayerTempData[playerid][e_editor_object] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 						}
 					}
 				}
@@ -3210,7 +3208,7 @@ public OnVehicleMod(playerid,vehicleid,componentid){
 							CallLocalFunction("OnPlayerEditVehicleObject","iiiffffff",playerid,EVF::PlayerTempData[playerid][e_editor_vehicle],response,final_pos[0],final_pos[1],new_pos[2],rx,ry,new_pos[3]);
 							
 							EVF::PlayerTempData[playerid][e_editor_vehicle] = INVALID_VEHICLE_ID;
-							EVF::PlayerTempData[playerid][e_editor_object] = STREAMER_TAG_OBJECT INVALID_STREAMER_ID;
+							EVF::PlayerTempData[playerid][e_editor_object] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
 						}
 						default: {
 							CallLocalFunction("OnPlayerEditVehicleObject","iiiffffff",playerid,EVF::PlayerTempData[playerid][e_editor_vehicle],response,x,y,z,rx,ry,rz);
@@ -3232,7 +3230,7 @@ public OnVehicleMod(playerid,vehicleid,componentid){
 	#endif
 	#define OnPlayerEditDynamicObject EVF_OnPlayerEditDynamicObject
 	#if defined EVF_OnPlayerEditDynamicObject
-		forward EVF_OnPlayerEditDynamicObject(playerid,STREAMER_TAG_OBJECT objectid,response,Float:x,Float:y,Float:z,Float:rx,Float:ry,Float:rz);
+		forward EVF_OnPlayerEditDynamicObject(playerid,STREAMER_TAG_OBJECT:objectid,response,Float:x,Float:y,Float:z,Float:rx,Float:ry,Float:rz);
 	#endif
 #endif
 
