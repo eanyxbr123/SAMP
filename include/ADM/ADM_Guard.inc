@@ -46,15 +46,6 @@
 	#error [ADM] Please include ADM_Guard.inc before 3DTryg.inc
 #endif
 
-//Update Checker
-#if !defined HTTP
-	#tryinclude <a_http>
-#endif
-
-#if !defined HTTP
-	#error [ADM] Please include a_http.inc before ADM_Guard.inc
-#endif
-
 #if !defined MAX_PLAYER_HEALTH
 	#define MAX_PLAYER_HEALTH				(100.0)
 #endif
@@ -530,22 +521,6 @@ public OnPlayerDisconnect(playerid,reason){
 new bool:CRC_ADMGInit = true,
 	bool:CRC_ADMGExit = true;
 
-ADMG::Public:: ADMG::OnRequestResponse(index, response_code, data[]){
-	if(response_code == 200){
-		if(isnull(data)) return 0;
-		new ADMG_version[16], ADMG_ver, ADMG_file_ver = ADMG_VERSION;
-		strmid(ADMG_version,data,0,strlen(data));
-		ADMG_ver = strval(ADMG_version);
-		if(ADMG_ver > ADMG_file_ver){
-			print(" ");
-			printf("[ADM] Info: Please update your ADM Guard include to v%d.%d.%d from here:",(ADMG_ver / 10000),((ADMG_ver % 10000) / 100),((ADMG_ver % 10000) % 100));
-			print("http://adm.ct8.pl/d/ADM_Guard.inc");
-			print(" ");
-		}
-	}
-	return 1;
-}
-
 ADMG::Function:: ADMG::Init(){
 	
 	//Welcome to ADMG
@@ -554,13 +529,6 @@ ADMG::Function:: ADMG::Init(){
 	if(GetSVarInt("ADM:ADMG:INIT") == 0){
 		SetSVarInt("ADM:ADMG:INIT",1);
 		printf("[ADM] Info: Load ADM Guard v%s for SA:MP %s by Abyss Morgan",ver_name,ADMG_SAMP_VERSION);
-	}
-	
-	if(GetSVarInt("ADM:ADMG:VERCHECK") == 0){
-		SetSVarInt("ADM:ADMG:VERCHECK",1);
-		new ADMG_send_data[128];
-		format(ADMG_send_data,sizeof(ADMG_send_data),"adm.ct8.pl/detector/_check.php?module=ADM_Guard&version=%d",ADMG_VERSION);
-		HTTP(10,HTTP_GET,ADMG_send_data,"","ADMG_OnRequestResponse");
 	}
 }
 

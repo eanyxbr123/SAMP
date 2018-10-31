@@ -111,15 +111,6 @@
 	#error [ADM] Please remove deprecated file base64.inc
 #endif
 
-//Update Checker
-#if !defined HTTP
-	#tryinclude <a_http>
-#endif
-
-#if !defined HTTP
-	#error [ADM] Please include a_http.inc before DataConvert.inc
-#endif
-
 #if !defined sscanf
 	#error [ADM] You need SScanf v2.8.2 (adm.ct8.pl/d/SScanf%202.8.2)
 #endif
@@ -580,22 +571,6 @@ DataConvert::Function:: base64_encode(input[],output[]){
 #define e:base64 					base64_encode
 #define d:base64 					base64_decode
 
-DataConvert::Public:: DataConvert::OnRequestResponse(index, response_code, data[]){
-	if(response_code == 200){
-		if(isnull(data)) return 0;
-		new DataConvert::version[16], DataConvert::ver, DataConvert::file_ver = Data_Convert_Version;
-		strmid(DataConvert::version,data,0,strlen(data));
-		DataConvert::ver = strval(DataConvert::version);
-		if(DataConvert::ver > DataConvert::file_ver){
-			print(" ");
-			printf("[ADM] Info: Please update your DataConvert include to v%d.%d.%d from here:",(DataConvert::ver / 10000),((DataConvert::ver % 10000) / 100),((DataConvert::ver % 10000) % 100));
-			print("http://adm.ct8.pl/d/DataConvert.inc");
-			print(" ");
-		}
-	}
-	return 1;
-}
-
 DataConvert::Function:: DataConvert::Init(){
 	SetSVarInt("ADM:DataConvert:ACTIVE",DataConvert::GetActiveCount()+1);
 	
@@ -605,13 +580,6 @@ DataConvert::Function:: DataConvert::Init(){
 	if(GetSVarInt("ADM:DataConvert:INIT") == 0){
 		SetSVarInt("ADM:DataConvert:INIT",1);
 		printf("[ADM] Info: Load Data Convert v%s for SA:MP %s by Abyss Morgan",DataConvert::ver_name,DataConvert::SAMP_VERSION);
-	}
-	
-	if(GetSVarInt("ADM:DataConvert:VERCHECK") == 0){
-		SetSVarInt("ADM:DataConvert:VERCHECK",1);
-		new DataConvert::send_data[128];
-		format(DataConvert::send_data,sizeof(DataConvert::send_data),"adm.ct8.pl/detector/_check.php?module=DataConvert&version=%d",Data_Convert_Version);
-		HTTP(14,HTTP_GET,DataConvert::send_data,"","DataConvert_OnRequestResponse");
 	}
 }
 
