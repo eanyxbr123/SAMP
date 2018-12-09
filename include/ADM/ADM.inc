@@ -983,7 +983,7 @@ ADM::Function:: ADM::ADMx256(const input[], const output[], key[]){
 			
 		//Create Bin Key Alfa
 		format(hash,sizeof(hash),"%s",MD5_Hash(password));
-		HexStringToString(hash,BinKeyAlfa);
+		ADM::HexStringToString(hash,BinKeyAlfa);
 		
 		//Create Bin Key Beta	
 		for(new i = 0, j = strlen(BinKeyAlfa); i < j; i++){
