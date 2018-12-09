@@ -2,7 +2,7 @@
  *                                                                                                                                *
  *                                                        Missile Launcher                                                        *
  *                                                                                                                                *
- * Copyright © 2018 Abyss Morgan. All rights reserved.                                                                            *
+ * Copyright Â© 2018 Abyss Morgan. All rights reserved.                                                                            *
  *                                                                                                                                *
  * Website:  adm.ct8.pl                                                                                                           *
  * Download: adm.ct8.pl/r/download                                                                                                *
@@ -416,7 +416,7 @@ stock MissileDestroy(mobid,type,playerid){
 	if(IsValidDynamicArea(MissileComponent[mobid][missile_areaid])) DestroyDynamicArea(MissileComponent[mobid][missile_areaid]);
 	new byplayerid = MissileComponent[mobid][missile_playerid];
 	MissileComponent[mobid][missile_objectid] = STREAMER_TAG_OBJECT:INVALID_STREAMER_ID;
-	MissileComponent[mobid][missile_areaid] = STREAMER_TAG_AREA	INVALID_STREAMER_ID;
+	MissileComponent[mobid][missile_areaid] = STREAMER_TAG_AREA:INVALID_STREAMER_ID;
 	MissileComponent[mobid][missile_type] = 0;
 	MissileComponent[mobid][missile_explode] = 0.0;
 	MissileComponent[mobid][missile_playerid] = INVALID_PLAYER_ID;
