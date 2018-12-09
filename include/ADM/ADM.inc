@@ -2,7 +2,7 @@
  *                                                                                                                                *
  *                                                 )(   ADM Encryption File   )(                                                  *
  *                                                                                                                                *
- * Copyright © 2018 Abyss Morgan. All rights reserved.                                                                            *
+ * Copyright Â© 2018 Abyss Morgan. All rights reserved.                                                                            *
  *                                                                                                                                *
  * Website:  adm.ct8.pl                                                                                                           *
  * Download: adm.ct8.pl/r/download                                                                                                *
@@ -680,7 +680,7 @@ ADM::Function:: ADM::ADMx256String(input[], output[], key[], maxdest = sizeof(ou
 			
 		//Create Bin Key Alfa
 		format(hash,sizeof(hash),"%s",MD5_Hash(password));
-		HexStringToString(hash,BinKeyAlfa);
+		ADM::HexStringToString(hash,BinKeyAlfa);
 		
 		//Create Bin Key Beta	
 		for(new i = 0, j = strlen(BinKeyAlfa); i < j; i++){
